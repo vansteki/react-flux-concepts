@@ -1,14 +1,24 @@
 {
   "name": "react-flux-concepts",
-  "version": "0.0.1",
-  "description": "Branches of this repo cover the concepts of react and flux in a hands on way",
+  "version": "1.0.0",
+  "description": "Step by step building the recipes-flux app in react &amp; flux.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vansteki/react-flux-concepts.git"
+  },
   "author": "",
-  "license": "BSD-2-Clause",
-  "dependencies": {
-    "mcfly": "0.0.8"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vansteki/react-flux-concepts/issues"
+  },
+  "homepage": "https://github.com/vansteki/react-flux-concepts",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-connect": "^2.2.0",
+    "gulp-livereload": "^3.8.0"
   }
 }
