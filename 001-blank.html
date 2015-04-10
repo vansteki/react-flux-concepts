@@ -4,13 +4,55 @@
 	<style type="text/css">
 
 	</style>
-	<script src="http://fb.me/react-0.12.2.js"></script>
-	<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+	<script src="https://fb.me/react-0.12.2.js"></script>
+	<script src="https://fb.me/JSXTransformer-0.12.2.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/0.11.6/react-router.js"></script>
+    <script src="http://kenwheeler.github.io/mcfly/McFly.js"></script>
 </head>
 <body>
+	<script type="text/jsx">
+	var Flux = new McFly();	
+	var _items = [];
 
-	<script type="text/javascript">
+	var CardStore = Flux.createStore(
+		{
+			getRecipes: function() {
+				return _items;
+			}
+		}, function(payload) {
+				if (payload.actionType === 'CARD.ADD_ITEM') {
+					_items.push(payload.content);
+					CardStore.emitChange();
+				}
+		} 
+	);
 
+	var CardActions = Flux.createActions({
+		addItem: function(itemContent) {
+			return {
+				actionType: 'CARD.ADD_ITEM',
+				content: itemContent
+			}
+		}
+	});
+	var Card = React.createClass({
+		 addItem: function() {
+		 	console.log('Reaction.addItem')
+			CardActions.addItem({
+				name: 'an new item > ' + +new Date
+			});
+		 },
+		 render: function() {
+			 return (
+				<div>
+					<div>Items:</div> 
+					<button onClick={this.addItem}> Buy </button>
+				</div>
+			 );
+		 }
+		});
+		React.render(< Card/>, document.body);
 	</script>
 </body>
 </html>
