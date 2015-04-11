@@ -14,10 +14,11 @@
 	<script type="text/jsx">
 	var Flux = new McFly();	
 	var _items = [];
+	
 
 	var CardStore = Flux.createStore(
 		{
-			getRecipes: function() {
+			getItems: function() {
 				return _items;
 			}
 		}, function(payload) {
@@ -36,6 +37,26 @@
 			}
 		}
 	});
+
+	var CardController = React.createClass({
+		mixins: [CardStore.mixin],
+		getInitialState: function() {
+			return this.getItems();
+		},
+		storeDidChange: function() {
+			console.log('storeDidChange')
+			this.setState(this.getItems());	
+		},
+		render: function() {
+			return <Card items={this.state.items} />;
+		},
+		getItems: function() {
+			return {
+				items: CardStore.getItems()
+			}
+		}
+	});
+
 	var Card = React.createClass({
 		 addItem: function() {
 		 	console.log('Reaction.addItem')
@@ -43,16 +64,28 @@
 				name: 'an new item > ' + +new Date
 			});
 		 },
+		 clearItem: function() {
+		 	console.log('clearItem')
+		 },
 		 render: function() {
+		 	console.log(this.props)
 			 return (
 				<div>
-					<div>Items:</div> 
+					<div>Items:</div>
+					<ul>
+					{
+						this.props.items.map(function(v,k) {
+							return <li> {v} </li>
+						})
+					}
+					</ul>
 					<button onClick={this.addItem}> Buy </button>
+					<button onClick={this.clearItem}> Clear </button>
 				</div>
 			 );
 		 }
 		});
-		React.render(< Card/>, document.body);
+		React.render(< CardController/>, document.body);
 	</script>
 </body>
 </html>
