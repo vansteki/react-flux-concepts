@@ -12,9 +12,9 @@
 </head>
 <body>
 	<script type="text/jsx">
-	var Flux = new McFly();	
+	var Flux = new McFly();
 	var _items = [];
-	
+
 
 	var CardStore = Flux.createStore(
 		{
@@ -26,7 +26,11 @@
 					_items.push(payload.content);
 					CardStore.emitChange();
 				}
-		} 
+				if (payload.actionType === 'CARD.CLEAR_ITEM') {
+					_items = [];
+					CardStore.emitChange();
+				}
+		}
 	);
 
 	var CardActions = Flux.createActions({
@@ -34,6 +38,11 @@
 			return {
 				actionType: 'CARD.ADD_ITEM',
 				content: itemContent
+			}
+		},
+		clearItem: function() {
+			return {
+				actionType: 'CARD.CLEAR_ITEM'
 			}
 		}
 	});
@@ -45,7 +54,7 @@
 		},
 		storeDidChange: function() {
 			console.log('storeDidChange')
-			this.setState(this.getItems());	
+			this.setState(this.getItems());
 		},
 		render: function() {
 			return <Card items={this.state.items} />;
@@ -65,7 +74,7 @@
 			});
 		 },
 		 clearItem: function() {
-		 	console.log('clearItem')
+		 	CardActions.clearItem();
 		 },
 		 render: function() {
 		 	console.log(this.props)

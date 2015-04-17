@@ -100,7 +100,13 @@
         /** Component */
 
         var Recipes = React.createClass({
-            addRecipe: function(){
+            getInitialState: function() {
+                return { value: '' };
+            },
+            onInput: function(event) {
+                this.setState({value: event.target.value});
+            },
+            addRecipe: function() {
                 RecipeActions.addRecipe(this.refs.inv.getDOMNode().value);
                 this.refs.inv.getDOMNode().value = "";
             },
@@ -108,9 +114,11 @@
                 RecipeActions.clearRecipes();
             },
             deleteRecipe: function(index){
+                // debugger
                 RecipeActions.deleteRecipe(index);
             },
             render: function() {
+                var self = this;
                 var recipeNodes = this.props.recipes.map(function(recipe, index){
                         return <li key={index}>Recipe {recipe} <button type="button" onClick={self.deleteRecipe.bind(self, index)}>Delete</button></li>
                     })
@@ -120,7 +128,7 @@
                 */
                 return (
                 <div className="todos_app">
-                    <input type="text" value="" ref="inv"/>
+                    <input type="text" ref="inv" value={this.state.value} onChange={this.onInput}/>
                     <ul className="recipes">
                         {recipeNodes}
                     </ul>
